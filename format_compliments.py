@@ -14,4 +14,5 @@ def format_csv():
     outfile.write('</body>')
     outfile.close()
 
-format_csv()
+if __name__ == '__main__':
+	format_csv()
