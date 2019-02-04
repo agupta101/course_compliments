@@ -7,10 +7,18 @@ def format_csv():
     with open('course_compliments.csv', 'rU', encoding='latin-1') as csvfile:
         csvreader = csv.reader(csvfile)
         for row in csvreader:
-            outfile.write(f'<b>{row[2]}</b><br>{row[3]}')
+            try:
+                outfile.write(f'<b>{row[2]}</b><br>{row[3]}')
+            except UnicodeEncodeError as e:
+                print('\nERROR OCCURED in printing {}'.format(row))
+                newstring = row[3].replace("\x92", "'")
+                print("\nProposed fix: \n{} \n".format(newstring))
+                outfile.write(f'<b>{row[2]}</b><br>{newstring}')
+
             if row[4] != '':
                 outfile.write(f' ({row[4]})')
             outfile.write('<br><br>')
+            
     outfile.write('</body>')
     outfile.close()
 

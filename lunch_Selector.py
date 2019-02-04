@@ -4,7 +4,7 @@ import random
 import sys
 
 # Read in the datafram
-df = pd.read_csv("full_compliments_list.csv")
+df = pd.read_csv("full_compliments_list.csv", encoding = "ISO-8859-1")
 
 # Student List stores the names of the students and by the data structure,
 # also the row of the entry
@@ -13,6 +13,8 @@ studentList =  df.loc[:,"Your FIRST Name (Optional)"]
 # Out list stores the names of the students that have been picked to avoid
 # rewarding the same student in a given cycle
 studentOut = []
+studentOutEmail = []
+profTitle = []
 profOut = []
 chosenList = []
 
@@ -25,7 +27,8 @@ if len(sys.argv) > 1:
 else:
 	numSelect = 3
 	print(" ################# ")
-	print("The number of students can be changed via a command line argument.")
+	print(" The number of students is {}".format(numSelect))
+	print(" This can be changed via a command line argument.")
 	print(" ################# ")
 
 # Now we select the students.
@@ -49,8 +52,12 @@ while numSelect > 0:
 			print("Student added")
 			# Add the student to the picked list.
 			chosenReceiver = df.loc[choosenOne[0], "Who's the lucky person?"]
+			title = df.loc[choosenOne[0], "Professor, TA, or Deans' Tutor?"]
+			email = df.loc[choosenOne[0], "Email (Optional)"]
+
 			studentOut.append(choosenOne[1])
-			profOut.append(chosenReceiver)
+			studentOutEmail.append(email)
+			profOut.append(title + ' ' + chosenReceiver)
 			chosenList.append(df.loc[choosenOne[0], :])
 
 			numSelect -= 1
@@ -90,10 +97,10 @@ while numSelect > 0:
 print(studentOut)
 print(profOut)
 
-outList = list(zip(studentOut, profOut))
+outList = list(zip(studentOut, studentOutEmail, profOut))
 print(outList)
 
-df = pd.DataFrame(outList, columns=["Student", "Instructor"]) 
+df = pd.DataFrame(outList, columns=["Student", "Student Email", "Instructor"]) 
 df.to_csv('chosen.csv', index=False)
 
 
