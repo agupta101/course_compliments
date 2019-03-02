@@ -6,7 +6,7 @@ def format_csv():
     outfile.write(r'<html><head></head><body>')
     with open('course_compliments.csv', 'rU', encoding='latin-1') as csvfile:
         csvreader = csv.reader(csvfile)
-        for row in csvreader:
+        for row in reversed(list(csvreader)):
             try:
                 outfile.write(f'<b>{row[2]}</b><br>{row[3]}')
             except UnicodeEncodeError as e:
