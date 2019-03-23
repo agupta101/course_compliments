@@ -12,11 +12,26 @@ students = list(dfChosen.loc[:,"Student"])
 profs =  list(dfChosen.loc[:,"Instructor"])
 emails =  list(dfChosen.loc[:,"Student Email"])
 
-print(list(zip(students,profs,emails)))
+values = list(zip(students,profs,emails))
+print(values)
 
-# email_out = email_content.format(*values)
-email_out = ""
-print(email_out)
+end_of_week_date = "March 11, 2019"
+end_of_term_date = "June 14, 2019"
+
+# email_out = ""
+for elem in values:
+	specific_vals = list(elem)
+	stud_email = specific_vals.pop()
+	specific_vals.append(end_of_week_date)
+	specific_vals.append(end_of_term_date)
+	print(specific_vals)
+	print(email_content)
+
+	print("Number of values needed: ", email_content.count('{}'))
+	print("Number of values acquired: ", len(specific_vals), " - ", specific_vals)
+
+	email_out = email_content.format(*elem)
+	print(email_out)
 
 
 with open("emailOut.txt", "w") as file:
